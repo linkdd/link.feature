@@ -17,10 +17,16 @@ class DummyFeature2(Feature):
 
 class TestFeature(TestCase):
     def setUp(self):
-        self.inner_cls = type('InnerDummy', (object,), {})
+        # create circular reference for getfeatures tests
+        def inner_init(this, dummy):
+            self.dummy = dummy
+
+        self.inner_cls = type('InnerDummy', (object,), {
+            '__init__': inner_init
+        })
 
         def dummy_init(this):
-            this.inner = self.inner_cls()
+            this.inner = self.inner_cls(this)
 
         self.cls = type('Dummy', (object,), {
             '__init__': dummy_init

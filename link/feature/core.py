@@ -59,27 +59,34 @@ def getfeatures(obj):
     :rtype: list
     """
 
-    bases = obj.__class__.mro()
-    result = []
+    def _getfeatures(obj, cache):
+        result = []
 
-    for base in reversed(bases):
-        result += [
-            (obj, feature_cls)
-            for feature_cls in getattr(base, '__features__', [])
-        ]
+        if obj not in cache:
+            cache.add(obj)
+            bases = obj.__class__.mro()
 
-    members = [
-        m
-        for n, m in getmembers(obj)
-        if not isroutine(m)
-        and not isclass(m)
-        and not n.startswith('__')
-    ]
+            for base in reversed(bases):
+                result += [
+                    (obj, feature_cls)
+                    for feature_cls in getattr(base, '__features__', [])
+                ]
 
-    for member in members:
-        result += getfeatures(member)
+            members = [
+                m
+                for n, m in getmembers(obj)
+                if not isroutine(m)
+                and not isclass(m)
+                and not n.startswith('__')
+            ]
 
-    return result
+            for member in members:
+                result += _getfeatures(member, cache)
+
+        return result
+
+    cache = set()
+    return _getfeatures(obj, cache)
 
 
 def hasfeature(obj, name):
