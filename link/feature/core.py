@@ -62,6 +62,18 @@ def getfeatures(obj):
     def _getfeatures(obj, cache):
         result = []
 
+        if isinstance(obj, (list, tuple)):
+            for item in obj:
+                result += _getfeatures(item, cache)
+
+            return result
+
+        elif isinstance(obj, dict):
+            for key in obj:
+                result += _getfeatures(obj[key], cache)
+
+            return result
+
         if obj not in cache:
             cache.add(obj)
             bases = obj.__class__.mro()

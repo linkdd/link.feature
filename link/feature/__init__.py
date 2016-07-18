@@ -7,4 +7,4 @@ from link.feature.core import hasfeature, getfeature
 
 __all__ = ['Feature', 'addfeatures', 'getfeatures', 'hasfeature', 'getfeature']
 
-__version__ = '1.1'
+__version__ = '1.2'
