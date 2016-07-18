@@ -27,8 +27,8 @@ class TestFeature(TestCase):
 
         def dummy_init(this):
             this.inner = self.inner_cls(this)
-            self.list_inner = [this.inner]
-            self.dict_inner = {
+            this.list_inner = [this.inner]
+            this.dict_inner = {
                 'key': this.inner
             }
 
