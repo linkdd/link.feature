@@ -2,7 +2,7 @@
 
 from unittest import TestCase, main
 
-from link.feature.core import Feature
+from link.feature.core import Feature, featuredprop
 from link.feature.core import addfeatures, getfeatures
 from link.feature.core import hasfeature, getfeature
 
@@ -19,21 +19,25 @@ class TestFeature(TestCase):
     def setUp(self):
         # create circular reference for getfeatures tests
         def inner_init(this, dummy):
-            self.dummy = dummy
+            self._dummy = dummy
 
         self.inner_cls = type('InnerDummy', (object,), {
-            '__init__': inner_init
+            '__init__': inner_init,
+            'dummy': featuredprop(lambda s: s._dummy)
         })
 
         def dummy_init(this):
-            this.inner = self.inner_cls(this)
-            this.list_inner = [this.inner]
-            this.dict_inner = {
-                'key': this.inner
+            this._inner = self.inner_cls(this)
+            this._list_inner = [this._inner]
+            this._dict_inner = {
+                'key': this._inner
             }
 
         self.cls = type('Dummy', (object,), {
-            '__init__': dummy_init
+            '__init__': dummy_init,
+            'inner': featuredprop(lambda s: s._inner),
+            'list_inner': featuredprop(lambda s: s._list_inner),
+            'dict_inner': featuredprop(lambda s: s._dict_inner),
         })
 
     def test_addfeatures(self):

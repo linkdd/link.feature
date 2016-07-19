@@ -43,15 +43,22 @@ You can now get a list of all features provided by an instance:
 
    # result == [(obj, JSONFeature)]
 
-**NB:** ``getfeatures()`` also look for instance members recursively:
+**NB:** ``getfeatures()`` look for featured properties (a special kind of
+property, used to indicate that there may be resolvable features):
 
 .. code-block:: python
+
+   from link.feature import featuredprop
 
    class Dummy(object):
        def __init__(self, *args, **kwargs):
            super(Dummy, self).__init__(*args, **kwargs)
 
-           self.inner = MyClass()
+           self._inner = MyClass()
+
+       @featuredprop
+       def inner(self):
+           return self._inner
 
    obj2 = Dummy()
    result = getfeatures(obj2)

@@ -19,6 +19,12 @@ class Feature(object):
         self.obj = obj
 
 
+class featuredprop(property):
+    """
+    Special property to allow traversal by the ``getfeatures()`` function.
+    """
+
+
 def addfeatures(features):
     """
     Add features to a class.
@@ -74,8 +80,8 @@ def getfeatures(obj):
 
             return result
 
-        if obj not in cache:
-            cache.add(obj)
+        if id(obj) not in cache:
+            cache.add(id(obj))
             bases = obj.__class__.mro()
 
             for base in reversed(bases):
@@ -84,16 +90,18 @@ def getfeatures(obj):
                     for feature_cls in getattr(base, '__features__', [])
                 ]
 
-            members = [
-                m
-                for n, m in getmembers(obj)
-                if not isroutine(m)
-                and not isclass(m)
-                and not n.startswith('__')
+            featuredpropnames = [
+                n
+                for n, m
+                in getmembers(
+                    obj.__class__,
+                    lambda m: isinstance(m, featuredprop)
+                )
             ]
 
-            for member in members:
-                result += _getfeatures(member, cache)
+            for propname in featuredpropnames:
+                attr = getattr(obj, propname)
+                result += _getfeatures(attr, cache)
 
         return result
 
