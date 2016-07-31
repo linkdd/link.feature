@@ -57,3 +57,10 @@ Installation
 .. code-block:: text
 
    pip install link.feature
+
+Donating
+--------
+
+.. image:: https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg
+   :target: https://gratipay.com/~linkdd/
+   :alt: Support via Gratipay
