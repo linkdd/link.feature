@@ -47,10 +47,6 @@ See documentation_ for more informations.
    :target: https://landscape.io/github/linkdd/link.feature/master
    :alt: Code Health
 
-.. image:: https://www.quantifiedcode.com/api/v1/project/542db478361f4b22885ec2219c366644/badge.svg
-  :target: https://www.quantifiedcode.com/app/project/542db478361f4b22885ec2219c366644
-  :alt: Code issues
-
 Installation
 ------------
 
@@ -61,6 +57,6 @@ Installation
 Donating
 --------
 
-.. image:: https://cdn.rawgit.com/gratipay/gratipay-badge/2.3.0/dist/gratipay.svg
-   :target: https://gratipay.com/~linkdd/
-   :alt: Support via Gratipay
+.. image:: https://liberapay.com/assets/widgets/donate.svg
+   :target: https://liberapay.com/linkdd/donate
+   :alt: Support via Liberapay
